@@ -1,0 +1,53 @@
+ -- Joined Tables
+ -- bike_share_yr_2021 = bike_share_yr_2022 = cost_price_table
+
+with cte as (
+select *
+from Bike_Data.dbo.bike_share_yr_2021
+Union
+select *
+from Bike_Data.dbo.bike_share_yr_2022)
+
+select 
+dteday,
+season,
+tableA.yr, 
+weekday, 
+hr, 
+rider_type, 
+riders, 
+price, 
+COGS,
+riders * price as revenue,
+riders * price - COGS as profit
+from cte tableA
+Left Join Bike_Data.dbo.cost_price_table tableB
+        on tableA.yr = tableB.yr
+
+
+		-- Views for Visualizations
+
+
+Create View [Bike_Share_Data_2021/2022] as
+with cte as (
+select *
+from Bike_Data.dbo.bike_share_yr_2021
+Union
+select *
+from Bike_Data.dbo.bike_share_yr_2022)
+
+select 
+dteday,
+season,
+tableA.yr, 
+weekday, 
+hr, 
+rider_type, 
+riders, 
+price, 
+COGS,
+riders * price as revenue,
+riders * price - COGS as profit
+from cte tableA
+Left Join Bike_Data.dbo.cost_price_table tableB
+        on tableA.yr = tableB.yr
